@@ -1,14 +1,29 @@
 // GAME FUNCTIONALITIES
 
 // Function to take the user input
-//   User choice variable
-//   Prompt the user for rock, paper or scissor (case insensitive!)
-//     Check if the user choice is viable (one of the three listed above)
-//     If yes set the choice to that
-//     Else exit the game (while loop or not?)
-//   Return the user choice 
+function getPlayerChoice() {
 
-// Function to make the computer choose randomly
+  // User choice variable
+  let playerChoice;
+
+  // Prompt the user for rock, paper or scissor (case insensitive!)
+  let promptedInput = prompt("Enter Rock, Paper or Scissors").toLowerCase();
+
+  // Check if the user choice is viable (one of the three listed above)
+  if (promptedInput === "rock"
+  || promptedInput === "paper"
+  || promptedInput === "scissors") {
+    // If yes set the choice to that
+    playerChoice = promptedInput;
+  } else {
+    // Else restart the game (Recursive I know!)
+    return getPlayerChoice()
+  }
+  // Return the user choice 
+  return playerChoice;
+}
+  
+// Function to make the computer choose1 randomly
 //   Computer choice variable
 //   Get a random number between 1 and 3
 //   If number is 1 rock, if 2 paper, if 3 scissor
