@@ -50,13 +50,41 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-// Function to play a round(takes computer and user choice as arguments)
-//   Check which wins (RPS logic)
-//   If player wins
-//     return victory message
-//   If computer wins
-//     return defeat message
-//   If it's a tie play again
+function playRound(playerChoice, computerChoice) {
+  // Function to play a round(takes computer and user choice as arguments)
+  let winner;
+  let winningHand;
+  let losingHand;
+  let isTie = false;
+
+  // Displaying player and computer choices
+  console.log("Player choose:", playerChoice);
+  console.log("Computer choose:", computerChoice);
+  
+  // Check which hand wins (RPS logic)
+  if (playerChoice === "rock" && computerChoice === "scissors" 
+  || playerChoice === "scissors" && computerChoice === "paper"
+  || playerChoice === "paper" && computerChoice === "rock") {
+    winner = "Player";
+    winningHand = playerChoice;
+    losingHand = computerChoice;
+  } else if (computerChoice === "rock" && playerChoice === "scissors" 
+  || computerChoice === "scissors" && playerChoice === "paper"
+  || computerChoice === "paper" && playerChoice === "rock") {
+    winner = "Computer";
+    winningHand = computerChoice;
+    losingHand = playerChoice;
+  } else if (playerChoice === computerChoice) {
+    isTie = true;
+  }
+
+  if (!isTie) {
+    return `${winner} wins! ${winningHand} beats ${losingHand}!`
+  } else {
+    console.log("It's a tie! The game starts again!");
+    return playRound(getPlayerChoice(), getComputerChoice());
+  }
+}
 
 // Main game function to combine the above
 //   Computer score variable
