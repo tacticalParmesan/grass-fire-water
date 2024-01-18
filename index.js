@@ -1,5 +1,9 @@
 // GAME FUNCTIONALITIES
 
+// Global varibles
+let playerScore  = 0;
+let computerScore = 0;
+
 function getPlayerChoice() {
   // Function to take the user input
 
@@ -29,7 +33,6 @@ function getComputerChoice() {
 
   // Get a random number between 1 and 3
   let randomNumber = Math.floor(Math.random() * 3) + 1; // +1 To avoid 0
-  console.log("Randnum:", randomNumber);
   // If number is 1 rock, if 2 paper, if 3 scissor
   // Set the computer choice variable accordingly:
   switch (randomNumber) {
@@ -68,12 +71,14 @@ function playRound(playerChoice, computerChoice) {
     winner = "Player";
     winningHand = playerChoice;
     losingHand = computerChoice;
+    playerScore++;
   } else if (computerChoice === "rock" && playerChoice === "scissors" 
   || computerChoice === "scissors" && playerChoice === "paper"
   || computerChoice === "paper" && playerChoice === "rock") {
     winner = "Computer";
     winningHand = computerChoice;
     losingHand = playerChoice;
+    computerScore++;
   } else if (playerChoice === computerChoice) {
     isTie = true;
   }
@@ -86,10 +91,18 @@ function playRound(playerChoice, computerChoice) {
   }
 }
 
-// Main game function to combine the above
-//   Computer score variable
-//   Player score varible
-//   Round count varible
-//   Play the game five times
-//   Compare scores to declare a winner
-//   Higher score wins!
+function game() {
+  for (let rounds = 1; rounds <= 5; rounds++) {
+    console.log(playRound(getPlayerChoice(), getComputerChoice()));
+  }
+
+  if (playerScore > computerScore) {
+    console.log("Player wins with a score of:", playerScore);
+    console.log("Computer score was:", computerScore);
+  } else {
+    console.log("Computer wins with a score of:", computerScore);
+    console.log("Player score was:", computerScore);
+  }
+}
+
+game();
