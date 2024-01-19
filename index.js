@@ -3,15 +3,16 @@ let computerScore = 0;
 
 function getPlayerChoice() {
 
-  let playerChoice;
-  let promptedInput = prompt("Enter Rock, Paper or Scissors").toLowerCase();
+  let playerChoice = prompt("Enter Rock, Paper or Scissors").toLowerCase();
 
-  // Check if the user choice is viable, and if yes the function will return it as the player's choice
-  if (promptedInput === "rock" || promptedInput === "paper"|| promptedInput === "scissors") {
-    playerChoice = promptedInput;
-  } else {
-    // The game will restart if the player entered an invalid input;
-    getPlayerChoice();
+  while (true) {
+    if (playerChoice === "rock" || playerChoice === "paper" || playerChoice === "scissors") {
+      // Check if the user choice is viable, and if yes the function will return it as the player's choice
+      break;
+    } else {
+      playerChoice = prompt("Enter Rock, Paper or Scissors").toLowerCase();
+      continue;
+    }
   }
   return playerChoice;
 }
@@ -77,15 +78,18 @@ function playRound(playerChoice, computerChoice) {
 
   // ...reset the round and start again if there is no winner
   if (!isTie) {
+    console.log("Current player score:", playerScore);
+    console.log("Current computer score:", computerScore);
     return `${winner} wins! ${winningHand} beats ${losingHand}!`
   } else {
     console.log("It's a tie! The game starts again!");
-    playRound(getPlayerChoice(), getComputerChoice());
+    return playRound(getPlayerChoice(), getComputerChoice());
   }
 }
 
 function game() {
   // The game winner is decide in a best-of-five gauntlet
+  let finalScore = playerScore + computerScore;
   for (let rounds = 1; rounds <= 5; rounds++) {
     console.log(playRound(getPlayerChoice(), getComputerChoice()));
   }
