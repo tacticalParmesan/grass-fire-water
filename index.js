@@ -1,40 +1,27 @@
-// GAME FUNCTIONALITIES
-
-// Global varibles
 let playerScore  = 0;
 let computerScore = 0;
 
 function getPlayerChoice() {
-  // Function to take the user input
 
-  // User choice variable
   let playerChoice;
-
-  // Prompt the user for rock, paper or scissor (case insensitive!)
   let promptedInput = prompt("Enter Rock, Paper or Scissors").toLowerCase();
 
-  // Check if the user choice is viable (one of the three listed above)
+  // Check if the user choice is viable, and if yes the function will return it as the player's choice
   if (promptedInput === "rock" || promptedInput === "paper"|| promptedInput === "scissors") {
-    // If yes set the choice to that
     playerChoice = promptedInput;
   } else {
-    // Else restart the game (Recursive I know!)
-    return getPlayerChoice()
+    // The game will restart if the player entered an invalid input;
+    getPlayerChoice();
   }
-  // Return the user choice 
   return playerChoice;
 }
   
 function getComputerChoice() {
-  // Function to make the computer choose randomly
   
-  // Computer choice variable
   let computerChoice;
 
-  // Get a random number between 1 and 3
+  // The computer's choice is tied to a random number between one and three, every number is a choice
   let randomNumber = Math.floor(Math.random() * 3) + 1; // +1 To avoid 0
-  // If number is 1 rock, if 2 paper, if 3 scissor
-  // Set the computer choice variable accordingly:
   switch (randomNumber) {
     case 1:
       computerChoice = "rock";
@@ -48,54 +35,62 @@ function getComputerChoice() {
       computerChoice = "scissors"
       break;
   }
-  
-  //   return the choice
   return computerChoice;
 }
 
 function playRound(playerChoice, computerChoice) {
-  // Function to play a round(takes computer and user choice as arguments)
+
+  // Tha game state is summed up by these variables
   let winner;
   let winningHand;
   let losingHand;
   let isTie = false;
 
-  // Displaying player and computer choices
+  // Displaying player and computer choices before executing the game logic
   console.log("Player choose:", playerChoice);
   console.log("Computer choose:", computerChoice);
   
-  // Check which hand wins (RPS logic)
+  // Checks which hand wins according to rock, paper, scissors rules
   if (playerChoice === "rock" && computerChoice === "scissors" 
   || playerChoice === "scissors" && computerChoice === "paper"
   || playerChoice === "paper" && computerChoice === "rock") {
+    
+    // The winner and his choice are stored in the below variables to be displayed and the end of round
     winner = "Player";
     winningHand = playerChoice;
     losingHand = computerChoice;
-    playerScore++;
+    playerScore++; // And clearly the score is updated every round;
+
   } else if (computerChoice === "rock" && playerChoice === "scissors" 
   || computerChoice === "scissors" && playerChoice === "paper"
   || computerChoice === "paper" && playerChoice === "rock") {
+
     winner = "Computer";
     winningHand = computerChoice;
     losingHand = playerChoice;
     computerScore++;
+
   } else if (playerChoice === computerChoice) {
+    // The code will also account for the case of a tie and will...
     isTie = true;
   }
 
+  // ...reset the round and start again if there is no winner
   if (!isTie) {
     return `${winner} wins! ${winningHand} beats ${losingHand}!`
   } else {
     console.log("It's a tie! The game starts again!");
-    return playRound(getPlayerChoice(), getComputerChoice());
+    playRound(getPlayerChoice(), getComputerChoice());
   }
 }
 
 function game() {
+  // The game winner is decide in a best-of-five gauntlet
   for (let rounds = 1; rounds <= 5; rounds++) {
     console.log(playRound(getPlayerChoice(), getComputerChoice()));
   }
 
+  // After the last round the scores are compared for declaring a winner of the entire game
   if (playerScore > computerScore) {
     console.log("Player wins with a score of:", playerScore);
     console.log("Computer score was:", computerScore);
