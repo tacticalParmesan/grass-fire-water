@@ -6,8 +6,8 @@ function getPlayerChoice() {
   let playerChoice = prompt("Enter Rock, Paper or Scissors").toLowerCase();
 
   while (true) {
+    // Check if the user choice is viable;
     if (playerChoice === "rock" || playerChoice === "paper" || playerChoice === "scissors") {
-      // Check if the user choice is viable, and if yes the function will return it as the player's choice
       break;
     } else {
       playerChoice = prompt("Enter Rock, Paper or Scissors").toLowerCase();
@@ -90,8 +90,8 @@ function playRound(playerChoice, computerChoice) {
 function game() {
   // The game winner is decide in a best-of-five gauntlet
   let finalScore = playerScore + computerScore;
-  for (let rounds = 1; rounds <= 5; rounds++) {
-    console.log(playRound(getPlayerChoice(), getComputerChoice()));
+  while (finalScore > 5) {
+    console.log(playRound(getPlayerChoice(), getComputerChoice()))
   }
 
   // After the last round the scores are compared for declaring a winner of the entire game
