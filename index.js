@@ -90,9 +90,8 @@ function playRound(playerChoice, computerChoice) {
 function game() {
   // The game winner is decide in a best-of-five gauntlet
   let finalScore = playerScore + computerScore;
-  while (finalScore > 5) {
-    console.log(playRound(getPlayerChoice(), getComputerChoice()))
-  }
+  console.log(playRound(getPlayerChoice(), getComputerChoice()))
+
 
   // After the last round the scores are compared for declaring a winner of the entire game
   if (playerScore > computerScore) {

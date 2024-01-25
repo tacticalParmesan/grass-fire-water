@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="game.js" defer></script>
     <title>Odin Project | Rock Paper Scissors</title>
 </head>
 <body>
-    <script src="index.js"></script>
+	<div class="header">
+		<div id="title">Rock Paper Scissors</div>
+		<a href="#" id="github-link">@github</a>
+	<div class="game-container">
+		<div class="scores">
+			<div id="player-score">Player Score: 0</div>
+			<div id="computer-score">Computer score: 0</div>
+		</div>
+		<div class="game-area">
+			<p class="choice player-choice"></p>
+			<p class="choice computer-choice"></p>
+			<ul class="rps-buttons">
+				<li><button class="rps-button" id="rock-button">Rock</button></li>
+				<li><button class="rps-button" id="paper-button">Paper</button></li>
+				<li><button class="rps-button" id="scissors-button">Scissors</button></li>
+			</ul>
+			<div class="round-result"></div>
+		</div>
+		<div class="gameover-area">
+		</div>
+
+	</div>
+
 </body>
 </html>
