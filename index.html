@@ -4,24 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="game.js" defer></script>
+		<link rel="stylesheet" href="style.css">
     <title>Odin Project | Rock Paper Scissors</title>
 </head>
 <body>
 	<div class="header">
 		<div id="title">Rock Paper Scissors</div>
-		<a href="#" id="github-link">@github</a>
+		<div class="links">
+			<a href="#" id="about-page">About</a>
+			<a href="#" id="github-link">@github</a>
+		</div>
+	</div>	
 	<div class="game-container">
 		<div class="scores">
 			<div id="player-score">Player Score: 0</div>
 			<div id="computer-score">Computer score: 0</div>
 		</div>
 		<div class="game-area">
-			<p class="choice player-choice"></p>
-			<p class="choice computer-choice"></p>
-			<ul class="rps-buttons">
-				<li><button class="rps-button" id="rock-button">Rock</button></li>
-				<li><button class="rps-button" id="paper-button">Paper</button></li>
-				<li><button class="rps-button" id="scissors-button">Scissors</button></li>
+			<div class="battlefield-area">
+				<div class="computer-field">
+					<p class="choice computer-choice">B</p>
+					<div class="panel" id="computer-panel">PANEL</div>
+				</div>
+				<div class="player-field">
+					<div class="panel" id="player-panel">PANEL</div>
+					<p class="choice player-choice">A</p>
+				</div>
+			</div>
+			<ul class="rps-buttons" id="rps-buttons">
+				<li><button class="rps-button" id="rock-button">
+					<img src="./assets/001.png" alt="" id="bulbasaur">
+				</button></li>
+				<li><button class="rps-button" id="paper-button">
+					<img src="./assets/003.png" alt="" id="squirtle">
+				</button></li>
+				<li><button class="rps-button" id="scissors-button">
+					<img src="./assets/002.png" alt="" id="charmander">
+				</button></li>
 			</ul>
 			<div class="round-result"></div>
 		</div>

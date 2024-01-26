@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  font-size: 16px;
+  font-family: "VT323", sans-serif;
+  --background-color: #083962;
+  --elements-color: #2062AC;
+  --highlight-color: #D5AC4A;
+  --text: azure;
+}
+
+/* Body styiling - applies to everything! */
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  margin: 0rem;
+  padding: 0rem;
+}
+
+/* Header section styling */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  background-color: var(--elements-color);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+#title {
+  font-size: 1.5rem;
+}
+
+.links {
+  display: flex;
+  gap: 1.2rem;
+}
+
+a {
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.2rem;
+}
+
+a:hover {
+  background-color: var(--highlight-color);
+  border-radius: 0.4rem;
+  color: var(--background-color);
+}
+
+/* Game container section styling */
+
+.game-container {
+  height: 90vh;
+  margin: 2%;
+  min-width: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Scores styling */
+
+.scores {
+  display: flex;
+  gap: 3rem;
+  font-size: 1.6rem;
+  color: var(--text);
+}
+
+/* Game area styling */
+
+.game-area {
+  margin-top: 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.battlefield-area {
+  width: 40rem;
+  height: 20rem;
+  border: 2px double #5A8BCD;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8rem
+}
+
+.computer-field,
+.player-field {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* Buttons styling */
+
+ul.rps-buttons {
+  padding: 0rem;
+  width: 30rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.rps-button {
+  width: 4rem;
+  height: 4rem;
+}
+
+img {
+  width: 3rem;
+  height: 3rem;
+}

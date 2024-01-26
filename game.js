@@ -1,7 +1,6 @@
 // Global variables for handling game functionalities as score and DOM elements
 let playerScore  = 0;
 let computerScore = 0;
-let isGameOver = false;
 
 // Grabbing references for pre-existing elements to acces
 const playerScoreText = document.querySelector("#player-score");
@@ -23,18 +22,30 @@ function getPlayerChoice(clickEvent) {
   let target = clickEvent.target;
 
   switch(target.id) {
+
+    case "bulbasaur":
     case "rock-button":
       playerChoice = "rock";
       break;
+
+    case "squirtle":
     case "paper-button":
       playerChoice = "paper";
       break;
+
+    case "charmander":
     case "scissors-button":
       playerChoice = "scissors"
       break;
+
+    default:
+      playerChoice = undefined;
+
   }
-  return playerChoice;
-};
+  return playerChoice
+  
+}
+
 
 // Getting computer choice using an RNG
 function getComputerChoice() {
@@ -84,6 +95,10 @@ function getRoundWinner(playerHand, computerHand) {
 function playRound(playerChoice, computerChoice) {
   // This function updates the choices text, calls the function that evaluates
   // who is the roundWinner of the round and sets scores accordingly
+
+  // Adding a check to stop the game if the player choice is invalid (blame me for actiong clever!)
+  if (playerChoice === undefined) {return};
+
   playerChoiceText.textContent = "Player chose: " + playerChoice;
   computerChoiceText.textContent = "Computer chose: " + computerChoice;
 
@@ -118,7 +133,6 @@ function getMatchWinner() {
   // When the total score hits 5, it's game over.
   if (playerScore + computerScore === 5 && !isGameOver) {
 
-    isGameOver = true;
 
     if (playerScore > computerScore) {
       gameWinner = "player"
@@ -157,10 +171,8 @@ function displayGameOverSection(winner) {
 }
 
 function playGame() {
-  if(!isGameOver) {
     // Play a round everytime the user clicks an option
-    playerChoiceButtons.addEventListener("click", (ev) => playRound(getPlayerChoice(ev), getComputerChoice()));
-  }
+    playerChoiceButtons.addEventListener("mousedown", (ev) =>  playRound(getPlayerChoice(ev), getComputerChoice()));
 }
 
 playGame();
