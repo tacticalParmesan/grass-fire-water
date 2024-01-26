@@ -1,6 +1,7 @@
-// Global variables for handling game functionalityS
+// Global variables for handling game functionalities as score and DOM elements
 let playerScore  = 0;
 let computerScore = 0;
+let isGameOver = false;
 
 // Grabbing references for pre-existing elements to acces
 const playerScoreText = document.querySelector("#player-score");
@@ -13,7 +14,7 @@ const scissorsButton = document.querySelector("#scissors-button");
 const roundResult = document.querySelector(".round-result");
 const gameOverArea = document.querySelector(".gameover-area");
 
-
+// All the buttons are accessed with event delegation
 const playerChoiceButtons = document.querySelector(".rps-buttons");
 
 // Storing player choice according to button clicked - using event delegation
@@ -24,15 +25,12 @@ function getPlayerChoice(clickEvent) {
   switch(target.id) {
     case "rock-button":
       playerChoice = "rock";
-      console.log("Clicked Rock");
       break;
     case "paper-button":
       playerChoice = "paper";
-      console.log("Clicked paper");
       break;
     case "scissors-button":
       playerChoice = "scissors"
-      console.log("Clicked scissors");
       break;
   }
   return playerChoice;
@@ -59,31 +57,33 @@ function getComputerChoice() {
 }
 
 function getRoundWinner(playerHand, computerHand) {
-  let winner = "";
+  let roundWinner = "";
 
   // Implementing the basic game logic
   if (playerHand === "rock" && computerHand === "scissors") {
-    winner = "player";
+    roundWinner = "player";
   } else if (playerHand === "scissors" && computerHand === "paper") {
-    winner = "player";
+    roundWinner = "player";
   } else if (playerHand === "paper" && computerHand === "rock") {
-    winner = "player";
+    roundWinner = "player";
   } else if (computerHand === "rock" && playerHand === "scissors") {
-    winner = "computer";
+    roundWinner = "computer";
   } else if (computerHand === "scissors" && playerHand === "paper") {
-    winner = "computer";
+    roundWinner = "computer";
   } else if (computerHand === "paper" && playerHand === "rock") {
-    winner = "computer";
+    roundWinner = "computer";
   };
 
   // Account for ties and stop the game
   if (playerHand === computerHand) {
-    winner = "tie";
+    roundWinner = "tie";
   }
-  return winner;
+  return roundWinner;
 }
 
 function playRound(playerChoice, computerChoice) {
+  // This function updates the choices text, calls the function that evaluates
+  // who is the roundWinner of the round and sets scores accordingly
   playerChoiceText.textContent = "Player chose: " + playerChoice;
   computerChoiceText.textContent = "Computer chose: " + computerChoice;
 
@@ -99,46 +99,68 @@ function playRound(playerChoice, computerChoice) {
     roundResult.textContent = "It's a tie. Both chose " + playerChoice;
   }
 
-  update();
+  // Update the UI and check if game is over
+  updateScoreUI();
+  getMatchWinner();
 }
 
-function update() {
+function updateScoreUI() {
+  // Function responsible for updating the UI every time a round is played
 
   playerScoreText.textContent = "Player score: " + playerScore;
   computerScoreText.textContent = "Computer score: " + computerScore; 
-  checkMatchWinner();
 
 }
 
-function checkMatchWinner() {
-  const gameOverText = document.createElement("div");
-  const resetButton = document.createElement("button");
-
+function getMatchWinner() {
+  let gameWinner = "";
+  
   // When the total score hits 5, it's game over.
-  if (playerScore + computerScore === 5) {
+  if (playerScore + computerScore === 5 && !isGameOver) {
+
+    isGameOver = true;
 
     if (playerScore > computerScore) {
-      gameOverText.textContent = "You win the match!";
+      gameWinner = "player"
     } else if (playerScore < computerScore) {
-      gameOverText.textContent = "You lose! Computer wins the match!"
+      gameWinner = "computer";
     }
-
-    gameOverArea.appendChild(gameOverText);
-
-    // Disable the buttons and stopping the event propagation
+    
+    // Disable the buttons
     const buttonsToDisable = document.querySelectorAll(".rps-button");
     buttonsToDisable.forEach( (btn) => {
       btn.disabled = true;
-    } )
-    playerChoiceButtons.removeEventListener("click", (ev) => playRound(getPlayerChoice(ev), getComputerChoice()));
-
+    } );
+    displayGameOverSection(gameWinner);
+    
   }
 }
 
+function displayGameOverSection(winner) {
+  // Function responsible for updating the lower center area of the view and displaying winner and
+  // reset game button
+
+  const matchWinner = getMatchWinner();
+
+  // Game Over Area updateScoreUI
+  const gameOverText = document.createElement("div");
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "Play again?";
+
+  gameOverText.textContent = (matchWinner === "player") ? "You win the match!" : "You lose! Computer wins the match!";
+  gameOverArea.appendChild(gameOverText);
+  gameOverArea.appendChild(resetButton);
+
+  // Clicking the reset button will restore the game to default;
+  resetButton.addEventListener("click", () => location.reload()); // It simply reloads the page!
+
+}
 
 function playGame() {
-  // Play a round everytime the user clicks an option
-  playerChoiceButtons.addEventListener("click", (ev) => playRound(getPlayerChoice(ev), getComputerChoice()));
+  if(!isGameOver) {
+    // Play a round everytime the user clicks an option
+    playerChoiceButtons.addEventListener("click", (ev) => playRound(getPlayerChoice(ev), getComputerChoice()));
+  }
 }
 
 playGame();
