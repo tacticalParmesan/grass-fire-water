@@ -240,9 +240,11 @@ function enableButtons() {
     } );
   }
 
+
 // Start of the game
 displayTextSlowly(roundResultText, "You have been challenged to battle! \n Who is going to move?", 25)
 playGame();
+
 
 
 
