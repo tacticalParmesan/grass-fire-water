@@ -3,14 +3,17 @@ let playerScore  = 0;
 let computerScore = 0;
 
 // Grabbing references for pre-existing elements to acces
+
+// Scores
 const playerScoreText = document.querySelector("#player-score");
 const computerScoreText = document.querySelector("#computer-score");
-const playerChoiceText = document.querySelector(".player-choice");
-const computerChoiceText = document.querySelector(".computer-choice");
-const rockButton = document.querySelector("#rock-button");
-const paperButton = document.querySelector("#paper-button");
-const scissorsButton = document.querySelector("#scissors-button");
-const roundResult = document.querySelector(".round-result");
+
+// Choices
+const playerChoiceImg= document.querySelector(".player-choice");
+const computerChoiceImg = document.querySelector(".computer-choice");
+
+// UI Sections
+const roundResultText = document.querySelector("#round-result-text");
 const gameOverArea = document.querySelector(".gameover-area");
 
 // All the buttons are accessed with event delegation
@@ -24,18 +27,18 @@ function getPlayerChoice(clickEvent) {
   switch(target.id) {
 
     case "bulbasaur":
-    case "rock-button":
-      playerChoice = "rock";
+    case "bulbasaur-button":
+      playerChoice = "bulbasaur";
       break;
 
     case "squirtle":
-    case "paper-button":
-      playerChoice = "paper";
+    case "squirtle-button":
+      playerChoice = "squirtle";
       break;
 
     case "charmander":
-    case "scissors-button":
-      playerChoice = "scissors"
+    case "charmander-button":
+      playerChoice = "charmander"
       break;
 
     default:
@@ -55,13 +58,13 @@ function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3) + 1; // +1 To avoid 0
   switch (randomNumber) {
     case 1:
-      computerChoice = "rock";
+      computerChoice = "bulbasaur";
       break;
     case 2:
-      computerChoice = "paper";
+      computerChoice = "squirtle";
       break;
     case 3:
-      computerChoice = "scissors"
+      computerChoice = "charmander"
       break;
   }
   return computerChoice;
@@ -71,17 +74,17 @@ function getRoundWinner(playerHand, computerHand) {
   let roundWinner = "";
 
   // Implementing the basic game logic
-  if (playerHand === "rock" && computerHand === "scissors") {
+  if (playerHand === "bulbasaur" && computerHand === "squirtle") {
     roundWinner = "player";
-  } else if (playerHand === "scissors" && computerHand === "paper") {
+  } else if (playerHand === "squirtle" && computerHand === "charmander") {
     roundWinner = "player";
-  } else if (playerHand === "paper" && computerHand === "rock") {
+  } else if (playerHand === "charmander" && computerHand === "bulbasaur") {
     roundWinner = "player";
-  } else if (computerHand === "rock" && playerHand === "scissors") {
+  } else if (computerHand === "bulbasaur" && playerHand === "squirtle") {
     roundWinner = "computer";
-  } else if (computerHand === "scissors" && playerHand === "paper") {
+  } else if (computerHand === "squirtle" && playerHand === "charmander") {
     roundWinner = "computer";
-  } else if (computerHand === "paper" && playerHand === "rock") {
+  } else if (computerHand === "charmander" && playerHand === "bulbasaur") {
     roundWinner = "computer";
   };
 
@@ -99,24 +102,40 @@ function playRound(playerChoice, computerChoice) {
   // Adding a check to stop the game if the player choice is invalid (blame me for actiong clever!)
   if (playerChoice === undefined) {return};
 
-  playerChoiceText.textContent = "Player chose: " + playerChoice;
-  computerChoiceText.textContent = "Computer chose: " + computerChoice;
-
+  updateBattleUI(playerChoice, computerChoice);
   let roundWinner = getRoundWinner(playerChoice, computerChoice);
 
   if (roundWinner === "player") {
-    roundResult.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
+    roundResultText.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
     playerScore += 1;
   } else if (roundWinner === "computer") {
-    roundResult.textContent = `You lose! ${playerChoice} beats ${computerChoice}.`;
+    roundResultText.textContent = `You lose! ${computerChoice} beats ${playerChoice}.`;
     computerScore += 1;
   } else {
-    roundResult.textContent = "It's a tie. Both chose " + playerChoice;
+    roundResultText.textContent = "It's a tie. Both chose " + playerChoice;
   }
 
   // Update the UI and check if game is over
   updateScoreUI();
   getMatchWinner();
+}
+
+function updateBattleUI(playerCritter, computerCritter) {
+  // Fucntion responsible for updating the Battlefield Area UI with images and panels
+  const playerCritterName = document.querySelector("#player-critter-name");
+  const computerCritterName = document.querySelector("#computer-critter-name");
+
+  playerCritterName.textContent = playerCritter[0].toUpperCase() + playerCritter.substring(1);
+  computerCritterName.textContent = computerCritter[0].toUpperCase() + computerCritter.substring(1);;
+
+  const panels = document.querySelectorAll(".panel")
+  panels.forEach( (panel) => panel.setAttribute("style", "display: flex"));
+
+  playerChoiceImg.setAttribute("src", `./assets/${playerCritter}-back.png`);
+  playerChoiceImg.setAttribute("style", "width: 6rem; height: 6rem;");
+  computerChoiceImg.setAttribute("src", `./assets/${computerCritter}.png`);
+  computerChoiceImg.setAttribute("style", "width: 6rem; height: 6rem;");
+
 }
 
 function updateScoreUI() {
@@ -131,7 +150,7 @@ function getMatchWinner() {
   let gameWinner = "";
   
   // When the total score hits 5, it's game over.
-  if (playerScore + computerScore === 5 && !isGameOver) {
+  if (playerScore + computerScore === 5) {
 
 
     if (playerScore > computerScore) {
@@ -154,14 +173,16 @@ function displayGameOverSection(winner) {
   // Function responsible for updating the lower center area of the view and displaying winner and
   // reset game button
 
-  const matchWinner = getMatchWinner();
+  const matchWinner = winner;
 
   // Game Over Area updateScoreUI
   const gameOverText = document.createElement("div");
   const resetButton = document.createElement("button");
   resetButton.textContent = "Play again?";
+  resetButton.setAttribute("id", "reset-button");
 
   gameOverText.textContent = (matchWinner === "player") ? "You win the match!" : "You lose! Computer wins the match!";
+  gameOverText.setAttribute("id", "game-over-text");
   gameOverArea.appendChild(gameOverText);
   gameOverArea.appendChild(resetButton);
 
