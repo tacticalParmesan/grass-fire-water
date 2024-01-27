@@ -9,7 +9,7 @@ const playerScoreText = document.querySelector("#player-score");
 const computerScoreText = document.querySelector("#computer-score");
 
 // Choices
-const playerChoiceImg= document.querySelector(".player-choice");
+const playerChoiceImg = document.querySelector(".player-choice");
 const computerChoiceImg = document.querySelector(".computer-choice");
 
 // UI Sections
@@ -106,13 +106,13 @@ function playRound(playerChoice, computerChoice) {
   let roundWinner = getRoundWinner(playerChoice, computerChoice);
 
   if (roundWinner === "player") {
-    roundResultText.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
+    displayTextSlowly(roundResultText,`You win! ${capitalize(playerChoice)} has super effective moves againts ${capitalize(computerChoice)}.`);
     playerScore += 1;
   } else if (roundWinner === "computer") {
-    roundResultText.textContent = `You lose! ${computerChoice} beats ${playerChoice}.`;
+    displayTextSlowly(roundResultText,`You lose! ${capitalize(playerChoice)}'s move aren't very effective against ${capitalize(computerChoice)}.`);
     computerScore += 1;
   } else {
-    roundResultText.textContent = "It's a tie. Both chose " + playerChoice;
+    displayTextSlowly(roundResultText, `Both ${capitalize(playerChoice)}'s power is even. It's a tie!`);
   }
 
   // Update the UI and check if game is over
@@ -159,11 +159,7 @@ function getMatchWinner() {
       gameWinner = "computer";
     }
     
-    // Disable the buttons
-    const buttonsToDisable = document.querySelectorAll(".rps-button");
-    buttonsToDisable.forEach( (btn) => {
-      btn.disabled = true;
-    } );
+    disableButtons();
     displayGameOverSection(gameWinner);
     
   }
@@ -196,6 +192,51 @@ function playGame() {
     playerChoiceButtons.addEventListener("mousedown", (ev) =>  playRound(getPlayerChoice(ev), getComputerChoice()));
 }
 
+// ---------- UTILITY FUNCTIONS ----------
+
+function capitalize(text) {
+  return text[0].toUpperCase() + text.substring(1);
+}
+
+function displayTextSlowly(element, text, delay=50) {
+  // Show the text one character at the time, to achieve a really nostalgic effect!
+  let count = 0;
+
+  // While text is being shown, keep buttons disabled
+  disableButtons()
+
+  let typer = setInterval(() => {
+
+    if (count != text.length) {
+      count++;
+      roundResultText.textContent = text.substring(0, count)
+    } else {
+      enableButtons();
+      clearInterval(typer);
+
+    }
+  }, delay)
+  
+}
+
+function disableButtons() {
+      // Disable the buttons
+      const buttonsToDisable = document.querySelectorAll(".rps-button");
+      buttonsToDisable.forEach( (btn) => {
+        btn.disabled = true;
+      } );
+}
+
+function enableButtons() {
+    // Disable the buttons
+    const buttonsToDisable = document.querySelectorAll(".rps-button");
+    buttonsToDisable.forEach( (btn) => {
+      btn.disabled = false;
+    } );
+  }
+
+// Start of the game
+displayTextSlowly(roundResultText, "You have been challanged to battle! \n Who is going to move?", 25)
 playGame();
 
 
