@@ -180,7 +180,7 @@ function displayGameOverSection(winner) {
   resetButton.textContent = "Play again?";
   resetButton.setAttribute("id", "reset-button");
 
-  gameOverText.textContent = (matchWinner === "player") ? "You win the match!" : "You lose! Computer wins the match!";
+  gameOverText.textContent = (matchWinner === "player") ? "You win the match!" : "You lose! SCIENTIST Turing wins the match!";
   gameOverText.setAttribute("id", "game-over-text");
   gameOverArea.appendChild(gameOverText);
   gameOverArea.appendChild(resetButton);
