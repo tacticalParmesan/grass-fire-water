@@ -1,6 +1,7 @@
 // Global variables for handling game functionalities as score and DOM elements
 let playerScore  = 0;
 let computerScore = 0;
+isGameOver = false;
 
 // Grabbing references for pre-existing elements to acces
 
@@ -169,6 +170,8 @@ function displayGameOverSection(winner) {
   // Function responsible for updating the lower center area of the view and displaying winner and
   // reset game button
 
+ isGameOver = true;
+
   const matchWinner = winner;
 
   // Game Over Area updateScoreUI
@@ -211,7 +214,9 @@ function displayTextSlowly(element, text, delay=50) {
       count++;
       roundResultText.textContent = text.substring(0, count)
     } else {
-      enableButtons();
+      if(!isGameOver) {
+        enableButtons();
+      }
       clearInterval(typer);
 
     }
