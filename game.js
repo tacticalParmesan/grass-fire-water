@@ -110,7 +110,7 @@ function playRound(playerChoice, computerChoice) {
     displayTextSlowly(roundResultText,`You win! ${capitalize(playerChoice)} has super effective moves againts ${capitalize(computerChoice)}.`);
     playerScore += 1;
   } else if (roundWinner === "computer") {
-    displayTextSlowly(roundResultText,`You lose! ${capitalize(playerChoice)}'s move aren't very effective against ${capitalize(computerChoice)}.`);
+    displayTextSlowly(roundResultText,`You lose! ${capitalize(playerChoice)}'s moves aren't very effective against ${capitalize(computerChoice)}.`);
     computerScore += 1;
   } else {
     displayTextSlowly(roundResultText, `Both ${capitalize(playerChoice)}'s power is even. It's a tie!`);
